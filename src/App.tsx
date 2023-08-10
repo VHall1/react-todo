@@ -32,7 +32,8 @@ export function App() {
 
   return (
     <div className="max-w-lg mx-auto">
-      <h1 className="my-4 text-white text-2xl text-center">Todo List</h1>
+      <h1 className="my-4 text-white text-2xl">Todo List</h1>
+
       <form onSubmit={handleSubmit}>
         <label
           htmlFor="input"
@@ -54,9 +55,10 @@ export function App() {
           submit
         </button>
       </form>
+
       <ul className="flex flex-col gap-2 mt-4">
         {items.map((item, index) => (
-          <li className="p-4 even:bg-gray-600 odd:bg-gray-700 rounded-lg">
+          <li className="flex items-center p-4 even:bg-gray-600 odd:bg-gray-700 rounded-lg">
             <input
               type="checkbox"
               id={`todo-item-${index}`}
@@ -67,7 +69,7 @@ export function App() {
             <label
               htmlFor={`todo-item-${index}`}
               className={classNames(
-                "ml-2 font-medium text-gray-900 dark:text-gray-300",
+                "flex-1 ml-2 font-medium text-gray-900 dark:text-gray-300",
                 {
                   "line-through": item.completed,
                 }
