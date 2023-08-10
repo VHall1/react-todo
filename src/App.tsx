@@ -33,12 +33,12 @@ export function App() {
   };
 
   return (
-    <div className="max-w-lg mx-auto max-md:px-4">
+    <div className="max-w-lg mx-auto px-2 max-md:px-4 flex flex-col overflow-hidden h-screen">
       <h1 className="my-4 text-white text-2xl">Todo List</h1>
 
       <Form handleSubmit={handleSubmit} />
 
-      <ul className="flex flex-col gap-2 mt-4">
+      <ul className="flex flex-col gap-2 mt-4 overflow-auto">
         {items.map((item, index) => (
           <li
             key={`todo-list-item-${index}`}
