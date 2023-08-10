@@ -1,45 +1,25 @@
 import * as React from "react";
 import classNames from "classnames";
 import { Form } from "./form";
-import { BsFillTrashFill } from "react-icons/bs";
+import { BsFillTrashFill, BsPlus } from "react-icons/bs";
+import { useDispatch, useSelector } from "@/store/hooks";
+import { addTask, completeTask, deleteTask } from "@/store/tasksReducer";
 
 export function App() {
-  const [items, setItems] = React.useState<
-    { text: string; completed: boolean }[]
-  >([]);
+  const [newTaskDialoOpen, setNewTaskDialogOpen] = React.useState(false);
+  const { tasks } = useSelector((state) => state.tasks);
+  const dispatch = useDispatch();
 
-  const handleSubmit = (item: string) => {
-    // This works, but it will cause performance issues if this list gets too long (which is unlikely)
-    setItems((oldItems) => [...oldItems, { text: item, completed: false }]);
-  };
-
-  const handleCheck = (index: number) => {
-    setItems((oldItems) =>
-      oldItems.map((item, _index) => {
-        if (_index === index) {
-          return {
-            ...item,
-            completed: !item.completed,
-          };
-        }
-
-        return item;
-      })
-    );
-  };
-
-  const handleDelete = (index: number) => {
-    setItems((oldItems) => oldItems.filter((_, _index) => index !== _index));
-  };
+  const handleSubmit = (item: string) => dispatch(addTask(item));
+  const handleCheck = (index: number) => dispatch(completeTask(index));
+  const handleDelete = (index: number) => dispatch(deleteTask(index));
 
   return (
     <div className="max-w-lg mx-auto px-2 max-md:px-4 flex flex-col overflow-hidden h-screen">
       <h1 className="my-4 text-white text-2xl">Todo List</h1>
 
-      <Form handleSubmit={handleSubmit} />
-
       <ul className="flex flex-col gap-2 mt-4 overflow-auto">
-        {items.map((item, index) => (
+        {tasks.map((item, index) => (
           <li
             key={`todo-list-item-${index}`}
             className="flex items-center p-4 even:bg-gray-600 odd:bg-gray-700 rounded-lg"
@@ -72,6 +52,18 @@ export function App() {
           </li>
         ))}
       </ul>
+
+      <Form
+        handleSubmit={handleSubmit}
+        open={newTaskDialoOpen}
+        onClose={() => setNewTaskDialogOpen(false)}
+      />
+      <button
+        onClick={() => setNewTaskDialogOpen(true)}
+        className="absolute right-4 bottom-4  text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500"
+      >
+        <BsPlus />
+      </button>
     </div>
   );
 }
