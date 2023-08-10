@@ -25,7 +25,7 @@ export const tasksSlice = createSlice({
     completeTask: (state, action: PayloadAction<number>) => {
       state.tasks.splice(action.payload, 1, {
         ...state.tasks[action.payload],
-        completed: true,
+        completed: !state.tasks[action.payload].completed,
       });
     },
   },
